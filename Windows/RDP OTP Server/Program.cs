@@ -13,6 +13,8 @@ namespace de.sbeh.rdp_otp
     {
         static int Main(string[] args)
         {
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+
             var newpass = @"";
 
             {
@@ -115,6 +117,11 @@ namespace de.sbeh.rdp_otp
             }
 
             return 0;
+        }
+
+        private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            File.WriteAllText(@"lastException.log", e.ExceptionObject.ToString(), Encoding.UTF8);
         }
     }
 }
