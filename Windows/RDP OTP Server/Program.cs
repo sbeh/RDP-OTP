@@ -122,6 +122,7 @@ namespace de.sbeh.rdp_otp
         private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             File.WriteAllText(@"lastException.log", e.ExceptionObject.ToString(), Encoding.UTF8);
+            Environment.Exit(1);
         }
     }
 }
