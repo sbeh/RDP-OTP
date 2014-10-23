@@ -11,6 +11,8 @@ namespace de.sbeh.rdp_otp
 {
     class Program
     {
+        static string oldpass, newpass;
+
         static void SetPass(string oldpass, string newpass)
         {
             var e = new DirectoryEntry(string.Format(@"WinNT://{0}/{1},User", Environment.UserDomainName, Environment.UserName));
@@ -26,7 +28,7 @@ namespace de.sbeh.rdp_otp
             var newpass = @"";
 
             {
-                var oldpass = File.ReadAllText(@"oldPass.txt");
+                oldpass = File.ReadAllText(@"oldPass.txt");
 
                 {
                     var passchars = @"abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ123456789";
@@ -36,6 +38,7 @@ namespace de.sbeh.rdp_otp
                 }
 
                 SetPass(oldpass, newpass);
+                Program.newpass = newpass;
             }
 
             WebRequest request;
@@ -127,6 +130,20 @@ namespace de.sbeh.rdp_otp
         private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             File.WriteAllText(@"lastException.log", e.ExceptionObject.ToString(), Encoding.UTF8);
+
+            if (newpass != null)
+                try
+                {
+                    SetPass(newpass, oldpass);
+                }
+                catch (Exception ex)
+                {
+                    File.AppendAllText(@"lastException.log",
+                        "\n\n" + @"Undoing change of password failed with another exception:" + "\n" +
+                        ex.ToString(),
+                        Encoding.UTF8);
+                }
+
             Environment.Exit(1);
         }
     }
