@@ -66,7 +66,10 @@ namespace de.sbeh.rdp_otp
                     encrypted = Convert.ToBase64String(rsa.Encrypt(Encoding.UTF8.GetBytes(newpass), false));
                 }
 
-                request = WebRequest.Create(@"http://zxing.org/w/chart?cht=qr&chs=350x350&chld=L&choe=UTF-8&chl=" +
+                request = WebRequest.Create(
+                    // Zebra Crossing site was unavailable on October, 23rd
+                    //@"http://zxing.org/w/chart?cht=qr&chs=350x350&chld=L&choe=UTF-8&chl=" +
+                    @"http://api.qrserver.com/v1/create-qr-code/?data=" +
                     Uri.EscapeDataString(encrypted));
             }
 
