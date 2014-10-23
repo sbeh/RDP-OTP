@@ -21,7 +21,7 @@ namespace de.sbeh.rdp_otp
                 var oldpass = File.ReadAllText(@"oldPass.txt");
 
                 {
-                    var passchars = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+                    var passchars = @"abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ123456789";
                     var rand = new Random();
                     for (var i = 0; i < 8; ++i)
                         newpass += passchars[rand.Next(passchars.Length)];
