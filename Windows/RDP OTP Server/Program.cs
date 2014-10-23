@@ -21,15 +21,11 @@ namespace de.sbeh.rdp_otp
             File.WriteAllText(@"oldPass.txt", newpass);
         }
 
-        static int Main(string[] args)
+        static string NewPass(string oldpass)
         {
-            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-
             var newpass = @"";
 
             {
-                oldpass = File.ReadAllText(@"oldPass.txt");
-
                 {
                     var passchars = @"abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ123456789";
                     var rand = new Random();
@@ -38,8 +34,17 @@ namespace de.sbeh.rdp_otp
                 }
 
                 SetPass(oldpass, newpass);
-                Program.newpass = newpass;
             }
+
+            return newpass;
+        }
+
+        static int Main(string[] args)
+        {
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+
+            oldpass = File.ReadAllText(@"oldPass.txt");
+            newpass = NewPass(oldpass);
 
             WebRequest request;
 
