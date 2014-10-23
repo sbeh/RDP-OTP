@@ -25,18 +25,25 @@ namespace de.sbeh.rdp_otp
         {
             var newpass = @"";
 
-            {
+            for (var t = 1; ; ++t)
+                try
                 {
-                    var passchars = @"abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ123456789";
-                    var rand = new Random();
-                    for (var i = 0; i < 8; ++i)
-                        newpass += passchars[rand.Next(passchars.Length)];
+                    {
+                        var passchars = @"abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ123456789";
+                        var rand = new Random();
+                        for (var i = 0; i < 8; ++i)
+                            newpass += passchars[rand.Next(passchars.Length)];
+                    }
+
+                    SetPass(oldpass, newpass);
+
+                    return newpass;
                 }
-
-                SetPass(oldpass, newpass);
-            }
-
-            return newpass;
+                catch (Exception e)
+                {
+                    if (t == 3)
+                        throw e; // give up after 3rd try
+                }
         }
 
         static int Main(string[] args)
