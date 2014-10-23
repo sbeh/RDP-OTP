@@ -11,6 +11,14 @@ namespace de.sbeh.rdp_otp
 {
     class Program
     {
+        static void SetPass(string oldpass, string newpass)
+        {
+            var e = new DirectoryEntry(string.Format(@"WinNT://{0}/{1},User", Environment.UserDomainName, Environment.UserName));
+            e.Invoke(@"ChangePassword", oldpass, newpass);
+
+            File.WriteAllText(@"oldPass.txt", newpass);
+        }
+
         static int Main(string[] args)
         {
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
@@ -27,10 +35,7 @@ namespace de.sbeh.rdp_otp
                         newpass += passchars[rand.Next(passchars.Length)];
                 }
 
-                var e = new DirectoryEntry(string.Format(@"WinNT://{0}/{1},User", Environment.UserDomainName, Environment.UserName));
-                e.Invoke(@"ChangePassword", oldpass, newpass);
-
-                File.WriteAllText(@"oldPass.txt", newpass);
+                SetPass(oldpass, newpass);
             }
 
             WebRequest request;
