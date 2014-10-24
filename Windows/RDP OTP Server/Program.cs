@@ -23,11 +23,11 @@ namespace de.sbeh.rdp_otp
 
         static string NewPass(string oldpass)
         {
-            var newpass = @"";
-
             for (var t = 1; ; ++t)
                 try
                 {
+                    var newpass = @"";
+
                     {
                         var passchars = @"abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ123456789";
                         var rand = new Random();
