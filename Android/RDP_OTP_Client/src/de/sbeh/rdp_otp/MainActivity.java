@@ -8,6 +8,7 @@ import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.spec.PKCS8EncodedKeySpec;
+import java.util.Arrays;
 
 import javax.crypto.Cipher;
 
@@ -65,8 +66,15 @@ public class MainActivity extends ActionBarActivity implements OnClickListener {
 
 				cipher.init(Cipher.DECRYPT_MODE, KeyFactory.getInstance("RSA").generatePrivate(new PKCS8EncodedKeySpec(key)));
 				
-				String decrypted = new String(cipher.update(encrypted), "UTF-8")
-						+ new String(cipher.doFinal(), "UTF-8");
+				byte[] decrypted0 = cipher.update(encrypted);
+				byte[] decrypted1 = cipher.doFinal();
+				if(decrypted0 == null)
+					decrypted0 = decrypted1;
+				else {
+					decrypted0 = Arrays.copyOf(decrypted0, decrypted0.length + decrypted1.length);
+					System.arraycopy(decrypted1, 0, decrypted0, decrypted0.length - decrypted1.length, decrypted1.length);
+				}
+				String decrypted = new String(decrypted0, "UTF-8");
 				secret.setText(decrypted);
 			} catch (Exception e) {
 				Log.e("", "Decrypting error", e);
