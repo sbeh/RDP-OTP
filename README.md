@@ -23,8 +23,8 @@ Now that you are logged in, the password has already been changed in the backgro
   Public key is saved as **pubkey.pem** on the external sd card
 * Copy **pubkey.pem** to your remote desktop session
 * In your remote desktop session, copy<br/>
-   https://github.com/sbeh/RDP-OTP/raw/master/Windows/RDP%20OTP%20Server/bin/Debug/RDP%20OTP%20Server.exe<br/> to<br/>
-   C:\Users\[Your user name]\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup
+  https://github.com/sbeh/RDP-OTP/raw/master/Windows/RDP%20OTP%20Server/bin/Debug/RDP%20OTP%20Server.exe<br/>
+  to a folder or your choice<br/>
 * Place the **pubkey.pem** in the same folder
 * Create a file **oldPass.txt** in the same folder, which contains your current password<br/>
   No line breaks please!<br/>
@@ -35,3 +35,6 @@ Now that you are logged in, the password has already been changed in the backgro
   https://ralf:ralfspassword@webdavhost.intern/OTP.png<br/>
   file://C:/Users/User/Dropbox/PublicSecrets/MyLogin.png<br/>
   No line breaks please!
+* Place a shortcut to **RDP OTP Server.exe** in<br/>
+  C:\Users\[Your user name]\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup<br/>
+  to ensure that your password gets changed every time you log in
